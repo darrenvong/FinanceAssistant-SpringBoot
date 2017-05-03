@@ -2,6 +2,8 @@ package com.cloudteam6.financeassistant.model;
 
 import org.springframework.stereotype.Component;
 
+import static com.cloudteam6.financeassistant.service.FinanceAssistantService.*;
+
 @Component
 public class Income {
 	
@@ -54,7 +56,7 @@ public class Income {
 	}
 	
 	public double getTotalAnnualIncome() {
-		return loan + grant + employment + parents + others;
+		return loan + grant + (employment + parents + others) * MONTHS_IN_A_YEAR;
 	}
 	
 }

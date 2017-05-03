@@ -61,17 +61,17 @@ public class FinanceAssistantController {
 	private Map<String, String> getFieldLabelsMap() {
 		Map<String, String> fieldLabels = new HashMap<>();
 		
-		fieldLabels.put("loan", "Maintenance Loan: ");
-		fieldLabels.put("grant", "Maintenance Grant: ");
-		fieldLabels.put("employment", "Employment: ");
-		fieldLabels.put("parents", "Parents: ");
-		fieldLabels.put("incomeOthers", "Other Income: ");
+		fieldLabels.put("loan", "Maintenance Loan (per year): ");
+		fieldLabels.put("grant", "Maintenance Grant (per year): ");
+		fieldLabels.put("employment", "Employment (per month): ");
+		fieldLabels.put("parents", "Parents (per month): ");
+		fieldLabels.put("incomeOthers", "Other Income (per month): ");
 		
-		fieldLabels.put("bills", "Bills (Gas, Electricity, Water): ");
-		fieldLabels.put("mobile", "Mobile Phone: ");
-		fieldLabels.put("rent", "Rent: ");
-		fieldLabels.put("travel", "Travel Expenses: ");
-		fieldLabels.put("outgoingOthers", "Other Monthly Fixed Outgoings: ");
+		fieldLabels.put("bills", "Bills (Gas, Electricity, Water) (per month): ");
+		fieldLabels.put("mobile", "Mobile Phone (per month): ");
+		fieldLabels.put("rent", "Rent (per month): ");
+		fieldLabels.put("travel", "Travel Expenses (per month): ");
+		fieldLabels.put("outgoingOthers", "Other Monthly Fixed Outgoings (per month): ");
 		
 		return fieldLabels;
 	}

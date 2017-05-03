@@ -51,7 +51,7 @@
 		          </div>
 		        </c:forEach>
 		        <br>
-		        <h3>FIXED MONTHLY OUTGOINGS</h3>
+		        <h3>FIXED OUTGOINGS</h3>
 		        <c:forEach items="${request.outgoings}" var="item">
 		          <c:set var="errors">
                       <form:errors path="outgoings[${item.key}]" cssClass="text-danger"></form:errors>
