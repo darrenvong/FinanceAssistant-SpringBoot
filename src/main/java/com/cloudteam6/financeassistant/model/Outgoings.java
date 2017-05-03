@@ -12,7 +12,7 @@ public class Outgoings {
 	private double rent;
 	private double others;
 	
-	public Outgoings() {} // Provided to satisfy Java Bean convention
+	protected Outgoings() {} // Provided to satisfy Java Bean convention
 	
 	public Outgoings(double bills, double mobile, double travel, double rent, double others) {
 		this.bills = bills;

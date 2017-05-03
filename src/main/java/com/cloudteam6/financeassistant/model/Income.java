@@ -13,7 +13,7 @@ public class Income {
 	private double parents;
 	private double others;
 	
-	public Income() {} // Provided to satisfy Java Bean convention
+	protected Income() {} // Provided to satisfy Java Bean convention
 	
 	public Income(double loan, double grant, double employment, double parents,
 					double others) {
