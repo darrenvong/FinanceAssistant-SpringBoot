@@ -22,6 +22,13 @@ public class RequestValidator implements Validator {
 		Request request = (Request) o;
 		validateRequestMappings(request.getIncome().entrySet(), e, "income");
 		validateRequestMappings(request.getOutgoings().entrySet(), e, "outgoings");
+		
+		try {
+			Integer.parseInt(request.getWeeksuntilnextloan());
+		}
+		catch (NumberFormatException ex) {
+			e.rejectValue("weeksuntilnextloan", "invalid");
+		}
 	}
 	
 	private void validateRequestMappings(Set<Entry<String, String>> entries, Errors e, String mappingName) {

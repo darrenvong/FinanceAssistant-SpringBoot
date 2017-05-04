@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
@@ -38,21 +39,38 @@
 	        <form:form method="POST" modelAttribute="request">
 		        <h3>INCOME</h3>
 		        <c:forEach items="${request.income}" var="item">
+		          <c:if test="${not fn:contains(item.key, 'Period')}">
 		          <c:set var="errors">
 		              <form:errors path="income[${item.key}]" cssClass="text-danger"></form:errors>
 		          </c:set>
 		          <div class="form-group ${not empty errors? 'has-error': ''}">
 		            <form:label for="income[${item.key}]" path="income[${item.key}]">${labels[item.key]}</form:label>
 		            <div class="input-group">
-		              <div class="input-group-addon">£</div>
-		              <form:input type="number" min="0" step="0.01" name="income[${item.key}]" id="income[${item.key}]" path="income[${item.key}]" cssClass="form-control" value="${item.value}"></form:input>
-		            </div>
+                      <div class="input-group-addon">£</div>
+                      <form:input type="number" min="0" step="0.01" name="income[${item.key}]" id="income[${item.key}]" path="income[${item.key}]" cssClass="form-control" value="${item.value}"></form:input>
+                      <form:hidden path="income[${item.key.concat('Period')}]"/>
+                    </div>
+		            
 		            ${errors}
 		          </div>
+			          <c:if test="${item.key eq 'balance'}">
+			             <c:set var="weeksError">
+			                 <form:errors path="weeksuntilnextloan" cssClass="text-danger"></form:errors>
+			             </c:set>
+			              <div class="form-group ${not empty weeksError? 'has-error': ''}">
+		                   <form:label for="weeksuntilnextloan" path="weeksuntilnextloan">${labels['weeksUntilNextLoan']}</form:label>
+		                   <form:input type="number" min="0" name="weeksuntilnextloan" id="weeksuntilnextloan" path="weeksuntilnextloan" cssClass="form-control"></form:input>
+		                  week(s)
+		                  </div>
+			          </c:if>
+		          </c:if>
 		        </c:forEach>
+		        
 		        <br>
+		        
 		        <h3>FIXED OUTGOINGS</h3>
 		        <c:forEach items="${request.outgoings}" var="item">
+		          <c:if test="${not fn:contains(item.key, 'Period')}">
 		          <c:set var="errors">
                       <form:errors path="outgoings[${item.key}]" cssClass="text-danger"></form:errors>
                   </c:set>
@@ -61,15 +79,16 @@
                     <div class="input-group">
                       <div class="input-group-addon">£</div>
                       <form:input type="number" min="0" step="0.01" name="outgoings[${item.key}]" id="outgoings[${item.key}]" path="outgoings[${item.key}]" cssClass="form-control" value="${item.value}"></form:input>
+                      <form:hidden path="outgoings[${item.key.concat('Period')}]"/>
                     </div>
                     ${errors}
                   </div>
+                  </c:if>
 		        </c:forEach>
 		        <button class="btn btn-primary" type="submit">Calculate</button>   
 		    </form:form>
 		 </div>
     </div>
-    
     
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

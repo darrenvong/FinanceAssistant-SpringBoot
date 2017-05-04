@@ -1,7 +1,10 @@
 package com.cloudteam6.financeassistant.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +17,7 @@ import com.cloudteam6.financeassistant.resource.Request;
 import com.cloudteam6.financeassistant.service.FinanceAssistantService;
 import com.cloudteam6.financeassistant.validator.RequestValidator;
 import com.cloudteam6.financeassistant.model.*;
+import static com.cloudteam6.financeassistant.model.MonetaryType.*;
 
 @Controller
 public class FinanceAssistantController {
@@ -40,16 +44,13 @@ public class FinanceAssistantController {
 			return "index";
 		}
 		
-		Income income = new Income(request.getIncomeDouble("loan"),
-				request.getIncomeDouble("grant"), request.getIncomeDouble("employment"),
-				request.getIncomeDouble("parents"), request.getIncomeDouble("incomeOthers"));
-		Outgoings outgoings = new Outgoings(request.getOutgoingsDouble("bills"),
-				request.getOutgoingsDouble("mobile"), request.getOutgoingsDouble("travel"),
-				request.getOutgoingsDouble("rent"), request.getOutgoingsDouble("outgoingOthers"));
+		List<MonetaryItem> incomes = buildMonetaryItemsList(INCOME, request.getIncome());
+		List<MonetaryItem> outgoings = buildMonetaryItemsList(OUTGOINGS, request.getOutgoings());
+		int weeksUntilNextLoan = Integer.parseInt(request.getWeeksuntilnextloan());
 		
-		model.addAttribute("monthlyBudget", financeAssistantService.getMonthlyBudget(income, outgoings));
-		model.addAttribute("weeklyBudget", financeAssistantService.getWeeklyBudget(income, outgoings));
-		model.addAttribute("dailyBudget", financeAssistantService.getDailyBudget(income, outgoings));
+		model.addAttribute("monthlyBudget", financeAssistantService.getMonthlyBudget(incomes, outgoings, weeksUntilNextLoan));
+		model.addAttribute("weeklyBudget", financeAssistantService.getWeeklyBudget(incomes, outgoings, weeksUntilNextLoan));
+		model.addAttribute("dailyBudget", financeAssistantService.getDailyBudget(incomes, outgoings, weeksUntilNextLoan));
 		
 		// Can then potentially interact with the peanut bank here before returning,
 		// once pricing is known...
@@ -58,20 +59,43 @@ public class FinanceAssistantController {
 		return "index";
 	}
 	
+	private List<MonetaryItem> buildMonetaryItemsList(MonetaryType type, Map<String, String> mapping) {
+		List<MonetaryItem> monetaryItemsList = new ArrayList<>();
+		for (Entry<String, String> entry : mapping.entrySet()) {
+			if (entry.getKey().contains("Period")) {
+				continue;
+			}
+			else {
+				MonetaryItem income = new MonetaryItem();
+				if (type == INCOME) {
+					income.setType(INCOME);
+				}
+				else {
+					income.setType(OUTGOINGS);
+				}
+				income.setName(entry.getKey());
+				income.setAmount(Double.parseDouble(entry.getValue()));
+				income.setWeeks( Integer.parseInt(mapping.get(entry.getKey()+"Period")) );
+				monetaryItemsList.add(income);
+			}
+		}
+		return monetaryItemsList;
+	}
+	
 	private Map<String, String> getFieldLabelsMap() {
 		Map<String, String> fieldLabels = new HashMap<>();
 		
-		fieldLabels.put("loan", "Maintenance Loan (per year): ");
-		fieldLabels.put("grant", "Maintenance Grant (per year): ");
-		fieldLabels.put("employment", "Employment (per month): ");
-		fieldLabels.put("parents", "Parents (per month): ");
-		fieldLabels.put("incomeOthers", "Other Income (per month): ");
+		fieldLabels.put("balance", "Your current bank balance: ");
+		fieldLabels.put("weeksUntilNextLoan", "Next loan installment in: ");
+		fieldLabels.put("employment", "Part-time job (per week): ");
+		fieldLabels.put("parents", "Parents (per week): ");
+		fieldLabels.put("incomeOthers", "Other one-off income: ");
 		
 		fieldLabels.put("bills", "Bills (Gas, Electricity, Water) (per month): ");
-		fieldLabels.put("mobile", "Mobile Phone (per month): ");
-		fieldLabels.put("rent", "Rent (per month): ");
-		fieldLabels.put("travel", "Travel Expenses (per month): ");
-		fieldLabels.put("outgoingOthers", "Other Monthly Fixed Outgoings (per month): ");
+		fieldLabels.put("mobile", "Mobile phone (per month): ");
+		fieldLabels.put("rent", "Rent (in this installment): ");
+		fieldLabels.put("travel", "Travel expenses (per month): ");
+		fieldLabels.put("outgoingOthers", "Other one-off outgoings: ");
 		
 		return fieldLabels;
 	}
