@@ -13,6 +13,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Finance Assistant</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        form {margin-bottom: 15px;}
+    </style>
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -38,7 +41,8 @@
           <c:if test="${not empty monthlyBudget && not empty weeklyBudget && not empty dailyBudget}">
             <%@include file="result.jsp" %>
           </c:if>
-	        <form:form method="POST" modelAttribute="request">
+          <div class="col-xs-12">
+	        <form:form method="POST" modelAttribute="request" cssClass="form-horizontal">
 		        <h3>INCOME</h3>
 		        <c:forEach items="${request.income}" var="item">
 		          <c:if test="${not fn:contains(item.key, 'Period')}">
@@ -46,11 +50,13 @@
 		              <form:errors path="income[${item.key}]" cssClass="text-danger"></form:errors>
 		          </c:set>
 		          <div class="form-group ${not empty errors? 'has-error': ''}">
-		            <form:label for="income[${item.key}]" path="income[${item.key}]">${labels[item.key]}</form:label>
-		            <div class="input-group">
-                      <div class="input-group-addon">£</div>
-                      <form:input type="number" min="0" step="0.01" name="income[${item.key}]" id="income[${item.key}]" path="income[${item.key}]" cssClass="form-control" value="${item.value}"></form:input>
-                      <form:hidden path="income[${item.key.concat('Period')}]"/>
+		            <form:label for="income[${item.key}]" path="income[${item.key}]" cssClass="control-label col-xs-12 col-sm-5">${labels[item.key]}</form:label>
+		            <div class="col-xs-8 col-sm-3">
+			            <div class="input-group">
+	                      <div class="input-group-addon">£</div>
+	                      <form:input type="number" min="0" step="0.01" name="income[${item.key}]" id="income[${item.key}]" path="income[${item.key}]" cssClass="form-control" value="${item.value}"></form:input>
+	                      <form:hidden path="income[${item.key.concat('Period')}]"/>
+	                    </div>
                     </div>
 		            
 		            ${errors}
@@ -60,9 +66,11 @@
 			                 <form:errors path="weeksuntilnextloan" cssClass="text-danger"></form:errors>
 			             </c:set>
 			              <div class="form-group ${not empty weeksError? 'has-error': ''}">
-		                   <form:label for="weeksuntilnextloan" path="weeksuntilnextloan">${labels['weeksUntilNextLoan']}</form:label>
-		                   <form:input type="number" min="0" name="weeksuntilnextloan" id="weeksuntilnextloan" path="weeksuntilnextloan" cssClass="form-control"></form:input>
-		                  week(s)
+		                   <form:label for="weeksuntilnextloan" path="weeksuntilnextloan" cssClass="control-label col-xs-12 col-sm-5">${labels['weeksUntilNextLoan']}</form:label>
+		                   <div class="col-xs-8 col-sm-3">
+		                      <form:input type="number" min="0" name="weeksuntilnextloan" id="weeksuntilnextloan" path="weeksuntilnextloan" cssClass="form-control"></form:input>
+		                   </div>
+		                   <p class="col-xs-2" style="margin-top:5px;padding-left:0;">week(s)</p>
 		                  </div>
 			          </c:if>
 		          </c:if>
@@ -77,11 +85,13 @@
                       <form:errors path="outgoings[${item.key}]" cssClass="text-danger"></form:errors>
                   </c:set>
 		          <div class="form-group ${not empty errors? 'has-error': ''}">
-                    <form:label for="outgoings[${item.key}]" path="outgoings[${item.key}]">${labels[item.key]}</form:label>
-                    <div class="input-group">
-                      <div class="input-group-addon">£</div>
-                      <form:input type="number" min="0" step="0.01" name="outgoings[${item.key}]" id="outgoings[${item.key}]" path="outgoings[${item.key}]" cssClass="form-control" value="${item.value}"></form:input>
-                      <form:hidden path="outgoings[${item.key.concat('Period')}]"/>
+                    <form:label for="outgoings[${item.key}]" path="outgoings[${item.key}]" cssClass="control-label col-xs-12 col-sm-5">${labels[item.key]}</form:label>
+                    <div class="col-xs-8 col-sm-3">
+	                    <div class="input-group">
+	                      <div class="input-group-addon">£</div>
+	                      <form:input type="number" min="0" step="0.01" name="outgoings[${item.key}]" id="outgoings[${item.key}]" path="outgoings[${item.key}]" cssClass="form-control" value="${item.value}"></form:input>
+	                      <form:hidden path="outgoings[${item.key.concat('Period')}]"/>
+	                    </div>
                     </div>
                     ${errors}
                   </div>
@@ -89,6 +99,7 @@
 		        </c:forEach>
 		        <button class="btn btn-primary" type="submit">Calculate</button>   
 		    </form:form>
+		 </div>
 		 </div>
     </div>
     
