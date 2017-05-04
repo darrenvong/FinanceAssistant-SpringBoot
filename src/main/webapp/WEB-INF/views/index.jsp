@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -46,7 +48,7 @@
 		          <div class="form-group ${not empty errors? 'has-error': ''}">
 		            <form:label for="income[${item.key}]" path="income[${item.key}]">${labels[item.key]}</form:label>
 		            <div class="input-group">
-                      <div class="input-group-addon">£</div>
+                      <div class="input-group-addon">Â£</div>
                       <form:input type="number" min="0" step="0.01" name="income[${item.key}]" id="income[${item.key}]" path="income[${item.key}]" cssClass="form-control" value="${item.value}"></form:input>
                       <form:hidden path="income[${item.key.concat('Period')}]"/>
                     </div>
@@ -77,7 +79,7 @@
 		          <div class="form-group ${not empty errors? 'has-error': ''}">
                     <form:label for="outgoings[${item.key}]" path="outgoings[${item.key}]">${labels[item.key]}</form:label>
                     <div class="input-group">
-                      <div class="input-group-addon">£</div>
+                      <div class="input-group-addon">Â£</div>
                       <form:input type="number" min="0" step="0.01" name="outgoings[${item.key}]" id="outgoings[${item.key}]" path="outgoings[${item.key}]" cssClass="form-control" value="${item.value}"></form:input>
                       <form:hidden path="outgoings[${item.key.concat('Period')}]"/>
                     </div>
