@@ -51,3 +51,5 @@ dump.rdb
 transaction-logs
 cloudkey
 cloudkey.pub
+*.png
+*.ucls

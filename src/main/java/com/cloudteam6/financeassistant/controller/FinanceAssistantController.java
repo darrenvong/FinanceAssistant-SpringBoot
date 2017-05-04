@@ -52,8 +52,7 @@ public class FinanceAssistantController {
 		model.addAttribute("weeklyBudget", financeAssistantService.getWeeklyBudget(incomes, outgoings, weeksUntilNextLoan));
 		model.addAttribute("dailyBudget", financeAssistantService.getDailyBudget(incomes, outgoings, weeksUntilNextLoan));
 		
-		// Can then potentially interact with the peanut bank here before returning,
-		// once pricing is known...
+		// Interact with peanut bank here?
 		
 		
 		return "index";
