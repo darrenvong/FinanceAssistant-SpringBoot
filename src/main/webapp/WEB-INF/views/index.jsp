@@ -11,6 +11,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <c:choose>
+        <c:when test="${not empty monthlyBudget && not empty weeklyBudget && not empty dailyBudget}">
+        <meta name="requestInfo" id="requestInfo" data-success="1">
+        </c:when>
+        <c:otherwise>
+        <meta name="requestInfo" id="requestInfo" data-success="0">
+        </c:otherwise>
+    </c:choose>
     <title>Finance Assistant</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
@@ -97,14 +105,51 @@
                   </div>
                   </c:if>
 		        </c:forEach>
-		        <button class="btn btn-primary" type="submit">Calculate</button>   
+		        <button class="btn btn-primary" id="calculate" type="submit">Calculate</button>   
 		    </form:form>
 		 </div>
 		 </div>
     </div>
-    
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script>
+    $(function() {
+    	function charge(userId, devId) {
+            $.ajax({
+                url: "/cloudteam6/peanutbank/bill",
+                type: 'post',
+                data: JSON.stringify({
+                    userId: userId,
+                    developerId: devId
+                }),
+                contentType: "application/json",
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+        }
+    	
+    	$(document).ready(() => {
+    		let userId, devId;
+    		$.get("/cloudteam6/user/current").done((data) => {
+    			console.log(data);
+    			userId = data.id;
+    			
+    			let appName = location.pathname;
+    			appName = appName.substring(0, appName.length - 1);
+    			$.get("/cloudteam6/appInfo?appName=" + appName, (data) => {
+                    console.log(data);
+                    devId = data.user.id;
+                }).done(() => {
+                	if ($("#requestInfo").data("success")) {
+                		charge(userId, devId);
+                	}
+                });
+    		});
+    	});
+    });
+    </script>
 </body>
 </html>
