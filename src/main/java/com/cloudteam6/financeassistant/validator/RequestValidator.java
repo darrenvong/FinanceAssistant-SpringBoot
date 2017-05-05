@@ -24,7 +24,10 @@ public class RequestValidator implements Validator {
 		validateRequestMappings(request.getOutgoings().entrySet(), e, "outgoings");
 		
 		try {
-			Integer.parseInt(request.getWeeksuntilnextloan());
+			int weeksUntilNextLoan = Integer.parseInt(request.getWeeksuntilnextloan());
+			if (weeksUntilNextLoan == 0) {
+				e.rejectValue("weeksuntilnextloan", "zero");
+			}
 		}
 		catch (NumberFormatException ex) {
 			e.rejectValue("weeksuntilnextloan", "invalid");

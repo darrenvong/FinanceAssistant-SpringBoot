@@ -57,9 +57,8 @@
 	                      <form:input type="number" min="0" step="0.01" name="income[${item.key}]" id="income[${item.key}]" path="income[${item.key}]" cssClass="form-control" value="${item.value}"></form:input>
 	                      <form:hidden path="income[${item.key.concat('Period')}]"/>
 	                    </div>
+	                    ${errors}
                     </div>
-		            
-		            ${errors}
 		          </div>
 			          <c:if test="${item.key eq 'balance'}">
 			             <c:set var="weeksError">
@@ -68,7 +67,8 @@
 			              <div class="form-group ${not empty weeksError? 'has-error': ''}">
 		                   <form:label for="weeksuntilnextloan" path="weeksuntilnextloan" cssClass="control-label col-xs-12 col-sm-5">${labels['weeksUntilNextLoan']}</form:label>
 		                   <div class="col-xs-8 col-sm-3">
-		                      <form:input type="number" min="0" name="weeksuntilnextloan" id="weeksuntilnextloan" path="weeksuntilnextloan" cssClass="form-control"></form:input>
+		                      <form:input type="number" min="1" name="weeksuntilnextloan" id="weeksuntilnextloan" path="weeksuntilnextloan" cssClass="form-control"></form:input>
+		                      ${weeksError}
 		                   </div>
 		                   <p class="col-xs-2" style="margin-top:5px;padding-left:0;">week(s)</p>
 		                  </div>
@@ -92,8 +92,8 @@
 	                      <form:input type="number" min="0" step="0.01" name="outgoings[${item.key}]" id="outgoings[${item.key}]" path="outgoings[${item.key}]" cssClass="form-control" value="${item.value}"></form:input>
 	                      <form:hidden path="outgoings[${item.key.concat('Period')}]"/>
 	                    </div>
+	                    ${errors}
                     </div>
-                    ${errors}
                   </div>
                   </c:if>
 		        </c:forEach>

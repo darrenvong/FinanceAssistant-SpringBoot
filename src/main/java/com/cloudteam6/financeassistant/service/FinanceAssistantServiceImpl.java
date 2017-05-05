@@ -20,7 +20,8 @@ public class FinanceAssistantServiceImpl implements FinanceAssistantService {
 			List<MonetaryItem> outgoings, int weeksUntilNextLoan) {
 		double totalIncome = getWeeklyMonetaryItemSum(incomes, weeksUntilNextLoan);
 		double totalOutgoings = getWeeklyMonetaryItemSum(outgoings, weeksUntilNextLoan);
-		return totalIncome - totalOutgoings;
+		double availableBudget = totalIncome - totalOutgoings;
+		return (availableBudget > 0)? availableBudget : 0;
 	}
 
 	@Override
