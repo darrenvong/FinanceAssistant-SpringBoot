@@ -63,12 +63,7 @@ public class FinanceAssistantController {
 			}
 			else {
 				MonetaryItem income = new MonetaryItem();
-				if (type == INCOME) {
-					income.setType(INCOME);
-				}
-				else {
-					income.setType(OUTGOINGS);
-				}
+				income.setType(type);
 				income.setName(entry.getKey());
 				income.setAmount(Double.parseDouble(entry.getValue()));
 				income.setWeeks( Integer.parseInt(mapping.get(entry.getKey()+"Period")) );
