@@ -25,8 +25,8 @@ public class RequestValidator implements Validator {
 		
 		try {
 			int weeksUntilNextLoan = Integer.parseInt(request.getWeeksuntilnextloan());
-			if (weeksUntilNextLoan == 0) {
-				e.rejectValue("weeksuntilnextloan", "zero");
+			if (weeksUntilNextLoan < 0) {
+				e.rejectValue("weeksuntilnextloan", "negative.weeks");
 			}
 		}
 		catch (NumberFormatException ex) {
